@@ -34,7 +34,7 @@ def get_dados(boxes):
         title_job = bs_page_detail.find('h2')
 
         data = {
-            "url": bs_page_detail.url,
+            "url": job_page_detail.url,
             "title": title_job.text,
             "company": bs_page_data[0].text,
             "salary": bs_page_data[1].text,
