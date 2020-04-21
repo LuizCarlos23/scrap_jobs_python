@@ -37,8 +37,8 @@ def get_dados(boxes):
 
         	data = {
             	"url": job_page_detail.url,
-        	    "title": title_job.text,
-       	 	    "company": bs_page_data[0].text,
+        	"title": title_job.text,
+       	 	"company": bs_page_data[0].text,
             	"salary": bs_page_data[1].text,
             	"state": bs_page_data[2].text,
             	"place": bs_page_data[3].text,
