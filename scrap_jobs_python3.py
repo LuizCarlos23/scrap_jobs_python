@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup as bs
 from requests import get
+import json
 
 all_jobs = []
 jobs_page = "True"
@@ -27,24 +28,26 @@ def next_page():
 def get_dados(boxes):
     print("Pegando Dados...")
     for box in boxes:
-        link = box.find('a')['href']
-        job_page_detail = get(f'{base_url}{link}')
-        bs_page_detail = bs(job_page_detail.text, 'html.parser')
-        bs_page_data = bs_page_detail.find_all('ul')[1].find_all('li')
-        title_job = bs_page_detail.find('h2')
+    	if (box.find('a')):
+        	link = box.find('a')['href']
+        	job_page_detail = get(f'{base_url}{link}')
+        	bs_page_detail = bs(job_page_detail.text, 'html.parser')
+        	bs_page_data = bs_page_detail.find_all('ul')[1].find_all('li')
+        	title_job = bs_page_detail.find('h2')
 
-        data = {
-            "url": job_page_detail.url,
-            "title": title_job.text,
-            "company": bs_page_data[0].text,
-            "salary": bs_page_data[1].text,
-            "state": bs_page_data[2].text,
-            "place": bs_page_data[3].text,
-            "level": bs_page_data[4].text,
-            "isRemote": bs_page_data[5].text
-        }
+        	data = {
+            	"url": job_page_detail.url,
+        	    "title": title_job.text,
+       	 	    "company": bs_page_data[0].text,
+            	"salary": bs_page_data[1].text,
+            	"state": bs_page_data[2].text,
+            	"place": bs_page_data[3].text,
+            	"level": bs_page_data[4].text,
+            	"isRemote": bs_page_data[5].text
+        	}
 
-        all_jobs.append(data)
+       		all_jobs.append(data)
+        
     print("Dados obtidos!\n")
     return all_jobs
 
@@ -70,7 +73,7 @@ while (jobs_page):
     else:
         break
 
-
+"""
 arquivo = open("jobs.txt", "w")
 for job in all_jobs:
     arquivo.write(f"{job['title']}\n")
@@ -84,4 +87,7 @@ for job in all_jobs:
     arquivo.write('\n \n')
 
 arquivo.close()
+"""
+with open("jobs.json", "w") as f:
+	json.dump(all_jobs, f, ensure_ascii=False)
 print("Dados salvos em jobs.txt")
